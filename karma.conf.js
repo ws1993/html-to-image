@@ -11,7 +11,7 @@ module.exports = function (config) {
   config.set({
     files: [
       {
-        pattern: 'test/spec/resources/**/*',
+        pattern: 'test/resources/**/*',
         included: false,
         served: true,
       },
@@ -25,10 +25,17 @@ module.exports = function (config) {
         included: false,
         served: true,
       },
-      'node_modules/imagediff/imagediff.js',
       'src/**/*.ts',
       'test/spec/**/*.ts',
     ],
+    plugins: [
+      'jasmine-core',
+      'karma-jasmine',
+      'karma-typescript',
+      'karma-spec-reporter',
+      'karma-chrome-launcher',
+    ],
+
     frameworks: ['jasmine', 'karma-typescript'],
     preprocessors: {
       '**/*.ts': ['karma-typescript'],
@@ -57,7 +64,7 @@ module.exports = function (config) {
       bundlerOptions: { sourceMap: true },
       coverageOptions: {
         instrumentation: !isDebug,
-        exclude: /\.test|spec\.ts$/,
+        exclude: [/spec\/.*\.ts$/],
       },
       reports: {
         html: reportsDir,

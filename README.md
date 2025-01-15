@@ -5,18 +5,18 @@
 <p align="center">Fork from <a href="https://github.com/tsayen/dom-to-image" rel="nofollow">dom-to-image</a> with more maintainable code and some new features.</p>
 
 <p align="center">
-<a href="/LICENSE"><img src="https://img.shields.io/github/license/bubkoo/html-to-image?style=flat-square" alt="MIT License"></a>
-<a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=flat-square"></a>
-<a href="https://github.com/bubkoo/html-to-image/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square"></a>
-<a href="https://github.com/bubkoo/html-to-image/actions/workflows/ci.yml"><img alt="build" src="https://img.shields.io/github/workflow/status/bubkoo/html-to-image/%F0%9F%91%B7%E3%80%80CI/master?logo=github&style=flat-square"></a>
-<a href="https://app.codecov.io/gh/bubkoo/html-to-image"><img alt="coverage" src="https://img.shields.io/codecov/c/gh/bubkoo/html-to-image?logo=codecov&style=flat-square&token=BWweeU2uNX"></a>
-<a href="https://lgtm.com/projects/g/bubkoo/html-to-image/context:javascript" rel="nofollow"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/bubkoo/html-to-image.svg?logo=lgtm&style=flat-square" /></a>
+<a href="https://github.com/bubkoo/html-to-image/actions/workflows/ci.yml"><img alt="build" src="https://img.shields.io/github/actions/workflow/status/bubkoo/html-to-image/ci.yml?branch=master&logo=github&style=for-the-badge"></a>
+<a href="https://app.codecov.io/gh/bubkoo/html-to-image"><img alt="coverage" src="https://img.shields.io/codecov/c/gh/bubkoo/html-to-image?logo=codecov&style=for-the-badge&token=BWweeU2uNX"></a>
+<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?logo=npm&style=for-the-badge" /></a>
+<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Downloads" src="http://img.shields.io/npm/dm/html-to-image.svg?logo=npm&style=for-the-badge" /></a>
+
+
 </p>
 
 <p align="center">
-<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?style=flat-square" /></a>
-<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Downloads" src="http://img.shields.io/npm/dm/html-to-image.svg?style=flat-square" /></a>
-<a href="https://david-dm.org/bubkoo/html-to-image?type=dev" rel="nofollow"><img alt="devDependencies Status" src="https://david-dm.org/bubkoo/html-to-image/dev-status.svg?style=flat-square" /></a>
+<a href="/LICENSE"><img src="https://img.shields.io/github/license/bubkoo/html-to-image?style=for-the-badge" alt="MIT License"></a>
+<a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=for-the-badge"></a>
+<a href="https://github.com/bubkoo/html-to-image/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge"></a>
 </p>
 
 ## Install
@@ -190,10 +190,10 @@ A function taking DOM node as argument. Should return true if passed node should
 
 You can add filter to every image function. For example, 
 
-```js
-const filter = (node)=>{
+```ts
+const filter = (node: HTMLElement) => {
   const exclusionClasses = ['remove-me', 'secret-div'];
-  return !exclusionClasses.some(classname=>node.classList.includes(classname));
+  return !exclusionClasses.some((classname) => node.classList?.contains(classname));
 }
 
 htmlToImage.toJpeg(node, { quality: 0.95, filter: filter});
@@ -300,11 +300,9 @@ Only standard lib is currently used, but make sure your browser supports:
 - [Promise](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 - SVG `<foreignObject>` tag
 
-It's tested on latest Chrome and Firefox (49 and 45 respectively at the time of writing), with Chrome performing significantly better on big DOM trees, possibly due to it's more performant SVG support, and the fact that it supports `CSSStyleDeclaration.cssText` property.
+It's tested on latest Chrome, Firefox and Safari (49, 45 and 16 respectively at the time of writing), with Chrome performing significantly better on big DOM trees, possibly due to it's more performant SVG support, and the fact that it supports `CSSStyleDeclaration.cssText` property.
 
 *Internet Explorer is not (and will not be) supported, as it does not support SVG `<foreignObject>` tag.*
-
-*Safari is not supported, as it uses a stricter security model on `<foreignObject>` tag. Suggested workaround is to use `toSvg` and render on the server.*
 
 ## How it works
 
@@ -343,3 +341,8 @@ To become a contributor, please follow our [contributing guide](/CONTRIBUTING.md
 <a href="https://github.com/bubkoo/html-to-image/graphs/contributors">
   <img src="/CONTRIBUTORS.svg" alt="Contributors" width="740" />
 </a>
+
+
+## License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
