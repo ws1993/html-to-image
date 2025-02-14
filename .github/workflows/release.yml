@@ -12,26 +12,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⤵️　Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
 
-      - name: 🚧　Install
-        run: yarn install
+      - name: 🎉　Setup nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: 🎉　Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          run_install: false
+
+      - name: 🌱　Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: 🚸　Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 🚧　Install dependencies
+        run: pnpm install --no-frozen-lockfile --ignore-scripts
 
       - name: 📦　Build
-        run: yarn build
+        run: pnpm run build
 
       - name: ✅　Test
-        run: yarn test
+        run: pnpm run test
 
       - name: 🔑　Generate Token
-        uses: bubkoo/use-app-token@v1
+        uses: wow-actions/use-app-token@v2
         with:
           app_id: ${{ secrets.APP_ID }}
           private_key: ${{ secrets.PRIVATE_KEY }}
-          env_name: bot_token
 
       - name: 📦　Semantic Release
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         id: semantic
         with:
           extends: '@bubkoo/semantic-release-config'
@@ -40,13 +66,17 @@ jobs:
             @semantic-release/git
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ env.bot_token }}
+          GITHUB_TOKEN: ${{ env.BOT_TOKEN }}
+          GIT_AUTHOR_NAME: ${{ env.BOT_NAME }}[bot]
+          GIT_AUTHOR_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: ${{ env.BOT_NAME }}[bot]
+          GIT_COMMITTER_EMAIL: ${{ env.BOT_NAME }}[bot]@users.noreply.github.com
 
       - name: 🎉　Setup Node.js with GitHub Package Registry
         if: steps.semantic.outputs.new_release_published == 'true'
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 12
+          node-version: 16
           registry-url: https://npm.pkg.github.com
           scope: bubkoo
 

@@ -5,18 +5,18 @@
 <p align="center">Fork from <a href="https://github.com/tsayen/dom-to-image" rel="nofollow">dom-to-image</a> with more maintainable code and some new features.</p>
 
 <p align="center">
-<a href="/LICENSE"><img src="https://img.shields.io/github/license/bubkoo/html-to-image?style=flat-square" alt="MIT License"></a>
-<a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=flat-square"></a>
-<a href="https://github.com/bubkoo/html-to-image/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=flat-square"></a>
-<a href="https://github.com/bubkoo/html-to-image/actions/workflows/ci.yml"><img alt="build" src="https://img.shields.io/github/workflow/status/bubkoo/html-to-image/%F0%9F%91%B7%E3%80%80CI/master?logo=github&style=flat-square"></a>
-<a href="https://app.codecov.io/gh/bubkoo/html-to-image"><img alt="coverage" src="https://img.shields.io/codecov/c/gh/bubkoo/html-to-image?logo=codecov&style=flat-square&token=BWweeU2uNX"></a>
-<a href="https://lgtm.com/projects/g/bubkoo/html-to-image/context:javascript" rel="nofollow"><img alt="Language grade: JavaScript" src="https://img.shields.io/lgtm/grade/javascript/g/bubkoo/html-to-image.svg?logo=lgtm&style=flat-square" /></a>
+<a href="https://github.com/bubkoo/html-to-image/actions/workflows/ci.yml"><img alt="build" src="https://img.shields.io/github/actions/workflow/status/bubkoo/html-to-image/ci.yml?branch=master&logo=github&style=for-the-badge"></a>
+<a href="https://app.codecov.io/gh/bubkoo/html-to-image"><img alt="coverage" src="https://img.shields.io/codecov/c/gh/bubkoo/html-to-image?logo=codecov&style=for-the-badge&token=BWweeU2uNX"></a>
+<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?logo=npm&style=for-the-badge" /></a>
+<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Downloads" src="http://img.shields.io/npm/dm/html-to-image.svg?logo=npm&style=for-the-badge" /></a>
+
+
 </p>
 
 <p align="center">
-<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Package" src="https://img.shields.io/npm/v/html-to-image.svg?style=flat-square" /></a>
-<a href="https://www.npmjs.com/package/html-to-image" rel="nofollow"><img alt="NPM Downloads" src="http://img.shields.io/npm/dm/html-to-image.svg?style=flat-square" /></a>
-<a href="https://david-dm.org/bubkoo/html-to-image?type=dev" rel="nofollow"><img alt="devDependencies Status" src="https://david-dm.org/bubkoo/html-to-image/dev-status.svg?style=flat-square" /></a>
+<a href="/LICENSE"><img src="https://img.shields.io/github/license/bubkoo/html-to-image?style=for-the-badge" alt="MIT License"></a>
+<a href="https://www.typescriptlang.org"><img alt="Language" src="https://img.shields.io/badge/language-TypeScript-blue.svg?style=for-the-badge"></a>
+<a href="https://github.com/bubkoo/html-to-image/pulls"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-Welcome-brightgreen.svg?style=for-the-badge"></a>
 </p>
 
 ## Install
@@ -51,26 +51,26 @@ Go with the following examples.
 Get a PNG image base64-encoded data URL and display it right away:
 
 ```js
-var node = document.getElementById('my-node');
+const node = document.getElementById('my-node');
 
-htmlToImage.toPng(node)
-  .then(function (dataUrl) {
-    var img = new Image();
+htmlToImage
+  .toPng(node)
+  .then((dataUrl) => {
+    const img = new Image();
     img.src = dataUrl;
     document.body.appendChild(img);
   })
-  .catch(function (error) {
-    console.error('oops, something went wrong!', error);
+  .catch((err) => {
+    console.error('oops, something went wrong!', err);
   });
 ```
 
 Get a PNG image base64-encoded data URL and download it (using [download](https://github.com/rndme/download)):
 
 ```js
-htmlToImage.toPng(document.getElementById('my-node'))
-  .then(function (dataUrl) {
-    download(dataUrl, 'my-node.png');
-  });
+htmlToImage
+  .toPng(document.getElementById('my-node'))
+  .then((dataUrl) => download(dataUrl, 'my-node.png'));
 ```
 
 #### toSvg
@@ -81,7 +81,8 @@ function filter (node) {
   return (node.tagName !== 'i');
 }
 
-htmlToImage.toSvg(document.getElementById('my-node'), { filter: filter })
+htmlToImage
+  .toSvg(document.getElementById('my-node'), { filter: filter })
   .then(function (dataUrl) {
     /* do something */
   });
@@ -91,7 +92,8 @@ htmlToImage.toSvg(document.getElementById('my-node'), { filter: filter })
 Save and download a compressed JPEG image:
 
 ```js
-htmlToImage.toJpeg(document.getElementById('my-node'), { quality: 0.95 })
+htmlToImage
+  .toJpeg(document.getElementById('my-node'), { quality: 0.95 })
   .then(function (dataUrl) {
     var link = document.createElement('a');
     link.download = 'my-image-name.jpeg';
@@ -104,7 +106,8 @@ htmlToImage.toJpeg(document.getElementById('my-node'), { quality: 0.95 })
 Get a PNG image blob and download it (using [FileSaver](https://github.com/eligrey/FileSaver.js)):
 
 ```js
-htmlToImage.toBlob(document.getElementById('my-node'))
+htmlToImage
+  .toBlob(document.getElementById('my-node'))
   .then(function (blob) {
     if (window.saveAs) {
       window.saveAs(blob, 'my-node.png');
@@ -118,7 +121,8 @@ htmlToImage.toBlob(document.getElementById('my-node'))
 Get a HTMLCanvasElement, and display it right away:
 
 ```js
-htmlToImage.toCanvas(document.getElementById('my-node'))
+htmlToImage
+  .toCanvas(document.getElementById('my-node'))
   .then(function (canvas) {
     document.body.appendChild(canvas);
   });
@@ -130,7 +134,8 @@ Get the raw pixel data as a [Uint8Array](https://developer.mozilla.org/en-US/doc
 ```js
 var node = document.getElementById('my-node');
 
-htmlToImage.toPixelData(node)
+htmlToImage
+  .toPixelData(node)
   .then(function (pixels) {
     for (var y = 0; y < node.scrollHeight; ++y) {
       for (var x = 0; x < node.scrollWidth; ++x) {
@@ -190,10 +195,10 @@ A function taking DOM node as argument. Should return true if passed node should
 
 You can add filter to every image function. For example, 
 
-```js
-const filter = (node)=>{
+```ts
+const filter = (node: HTMLElement) => {
   const exclusionClasses = ['remove-me', 'secret-div'];
-  return !exclusionClasses.some(classname=>node.classList.includes(classname));
+  return !exclusionClasses.some((classname) => node.classList?.contains(classname));
 }
 
 htmlToImage.toJpeg(node, { quality: 0.95, filter: filter});
@@ -274,9 +279,9 @@ instead using this value. This is useful when combined with `getFontEmbedCSS()` 
 embedding process a single time across multiple calls to library functions.
 
 ```javascript
-const fontEmbedCss = await htmlToImage.getFontEmbedCSS(element1);
-html2Image.toSVG(element1, { fontEmbedCss });
-html2Image.toSVG(element2, { fontEmbedCss });
+const fontEmbedCSS = await htmlToImage.getFontEmbedCSS(element1);
+html2Image.toSVG(element1, { fontEmbedCSS });
+html2Image.toSVG(element2, { fontEmbedCSS });
 ```
 
 ### skipAutoScale
@@ -291,7 +296,11 @@ Defaults to `false`
 A string indicating the image format. The default type is image/png; that type is also used if the given type isn't supported.
 When supplied, the toCanvas function will return a blob matching the given image type and quality. 
 
-Defaults to `image/png`  
+Defaults to `image/png`
+
+### includeStyleProperties
+
+An array of style property names. Can be used to manually specify which style properties are included when cloning nodes. This can be useful for performance-critical scenarios.
 
 ## Browsers
 
@@ -300,11 +309,9 @@ Only standard lib is currently used, but make sure your browser supports:
 - [Promise](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 - SVG `<foreignObject>` tag
 
-It's tested on latest Chrome and Firefox (49 and 45 respectively at the time of writing), with Chrome performing significantly better on big DOM trees, possibly due to it's more performant SVG support, and the fact that it supports `CSSStyleDeclaration.cssText` property.
+It's tested on latest Chrome, Firefox and Safari (49, 45 and 16 respectively at the time of writing), with Chrome performing significantly better on big DOM trees, possibly due to it's more performant SVG support, and the fact that it supports `CSSStyleDeclaration.cssText` property.
 
 *Internet Explorer is not (and will not be) supported, as it does not support SVG `<foreignObject>` tag.*
-
-*Safari is not supported, as it uses a stricter security model on `<foreignObject>` tag. Suggested workaround is to use `toSvg` and render on the server.*
 
 ## How it works
 
@@ -343,3 +350,8 @@ To become a contributor, please follow our [contributing guide](/CONTRIBUTING.md
 <a href="https://github.com/bubkoo/html-to-image/graphs/contributors">
   <img src="/CONTRIBUTORS.svg" alt="Contributors" width="740" />
 </a>
+
+
+## License
+
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
